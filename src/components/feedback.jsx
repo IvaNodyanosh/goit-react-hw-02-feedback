@@ -1,10 +1,11 @@
 import { Component } from "react";
-import { countTotalFeedback } from "./countTotalFeedback";
-import { countPositiveFeedbackPercentage } from "./countPositiveFeedbackPercentage";
-import { Statistics } from "./statistics";
-import { FeedbackOptions } from "./feedbackOptions";
-import { Section } from "./sections";
-import { Notification } from "./notification";
+import { countTotalFeedback } from "./function/countTotalFeedback";
+import { countPositiveFeedbackPercentage } from "./function/countPositiveFeedbackPercentage";
+import { Statistics } from "./statistics/statistics";
+import { FeedbackOptions } from "./feedbackOptions/feedbackOptions";
+import { Section } from "./sections/sections";
+import { Notification } from "./notification/notification";
+import css from "./feedback.module.css"
 
 export class Feedback extends Component {
     
@@ -15,8 +16,9 @@ export class Feedback extends Component {
     };
 
     addFeedback = (e) => {
+        const {name} = e.currentTarget
     
-        this.setState(prevState => ({ [e.target.value]: prevState[e.target.value] + 1 }));
+        this.setState(prevState => ({ [name]: prevState[name] + 1 }));
     
     }
 
@@ -25,7 +27,7 @@ export class Feedback extends Component {
         const total = countTotalFeedback(this.state);
         const positivePercentage = countPositiveFeedbackPercentage(total, this.state);
         return(
-            <>
+            <div className={css.container}>
                 <Section title={"Please leave feedback"}>
                     <FeedbackOptions options={Object.keys(this.state)} onLeaveFeedback={this.addFeedback} />
                 </Section>
@@ -35,7 +37,7 @@ export class Feedback extends Component {
                    
                 </Section>
 
-            </>
+            </div>
         )
     }
 
